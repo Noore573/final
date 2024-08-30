@@ -1,0 +1,154 @@
+ public List<Gameboard> getNextStates(int sn) {
+        List<Gameboard> nextStates = new ArrayList<>();
+        int shakacount = 1;
+        int baracount = 1;
+        int dstcount = 1;
+        int bngcount = 1;
+        // shaka
+        for (int i = 0; i < 13; i++) {
+            Gameboard nextState = Deepcopy();
+            System.out.println(nextState.squares[158].value + "<");
+            System.out.println(nextState.squares[150].value + "<");
+            // System.out.println("The current moves:"+nextState.com.comnumofmovements);
+            // System.out.println("Shaka count:" + shakacount);
+            nextState.p.playernumofmovements += (6 * shakacount);
+            if (shakacount <= 5) {
+                if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12) {
+                    // System.out.println("check1");
+                    nextState.p.playernumofmovements += 2;
+
+                } else if (i == 1 || i == 4 || i == 7 || i == 10 || i == 13) {
+                    // System.out.println("check2");
+                    nextState.p.playernumofmovements += 3;
+                } else if (i == 2 || i == 5 || i == 8 || i == 11 || i == 14) {
+                    // System.out.println("check3");
+                    nextState.p.playernumofmovements += 4;
+                }
+
+                if (i == 2 || i == 5 || i == 8 || i == 11) {
+                    // System.out.println("check4 sc:" + shakacount);
+                    shakacount++;
+                }
+            }
+
+            // nextState.makemove2(1, 0, nextState.p.playernumofmovements);
+            // printarray(nextState.board);
+            nextStates.add(nextState);
+            System.out.println("shaka test " + i + " :" + nextState.p.playernumofmovements);
+        }
+        // bara
+        for (int i = 0; i < 13; i++) {
+            Gameboard nextState = Deepcopy();
+            nextState.p.playernumofmovements += (6 * baracount);
+            if (baracount < 5) {
+                if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12) {
+                    nextState.p.playernumofmovements += 2;
+                } else if (i == 1 || i == 4 || i == 7 || i == 10 || i == 13) {
+                    nextState.p.playernumofmovements += 3;
+                } else if (i == 2 || i == 5 || i == 8 || i == 11 || i == 14) {
+                    nextState.p.playernumofmovements += 4;
+                }
+                if (i == 2 || i == 5 || i == 8 || i == 11) {
+                    baracount++;
+                }
+            }
+            nextState.makemove2(1, 0, nextState.p.playernumofmovements);
+            nextStates.add(nextState);
+            System.out.println("bara test " + i + " :" + nextState.p.playernumofmovements);
+        }
+        // dst extra move
+        for (int i = 0; i < 13; i++) {
+            Gameboard nextState = Deepcopy();
+            nextState.p.playernumofmovements += (6 * dstcount);
+            if (dstcount < 5) {
+                if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12) {
+                    nextState.p.playernumofmovements += 2;
+                    nextState.p.playernumofmovements += 1;
+                } else if (i == 1 || i == 4 || i == 7 || i == 10 || i == 13) {
+                    nextState.p.playernumofmovements += 3;
+                    nextState.p.playernumofmovements += 1;
+                } else if (i == 2 || i == 5 || i == 8 || i == 11 || i == 14) {
+                    nextState.p.playernumofmovements += 4;
+                    nextState.p.playernumofmovements += 1;
+                }
+                if (i == 2 || i == 5 || i == 8 || i == 11) {
+                    dstcount++;
+                }
+            }
+            nextState.makemove2(1, 0, nextState.p.playernumofmovements);
+            nextStates.add(nextState);
+            // System.out.println("dst test " + i + " :" +
+            // nextState.p.playernumofmovements);
+        }
+        // // dst add stone
+        for (int i = 0; i < 13; i++) {
+            Gameboard nextState = Deepcopy();
+            nextState.p.playernumofmovements += (6 * dstcount);
+            System.out.println("test:" + nextState.p.playernumofstones);
+            khalmoveForNextState('p', nextState, "dst", i);
+
+            if (dstcount < 5) {
+                if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12) {
+                    nextState.p.playernumofmovements += 2;
+                } else if (i == 1 || i == 4 || i == 7 || i == 10 || i == 13) {
+                    nextState.p.playernumofmovements += 3;
+                } else if (i == 2 || i == 5 || i == 8 || i == 11 || i == 14) {
+                    nextState.p.playernumofmovements += 4;
+                }
+                if (i == 2 || i == 5 || i == 8 || i == 11) {
+                    dstcount++;
+                }
+            }
+            nextStates.add(nextState);
+            // printarray(board);
+            System.out.println("adding stone test " + i + " :" + nextState.p.playernumofmovements + " stonepos:"
+                    + nextState.p.playerstones[1].stoneboardpos);
+        }
+        // bng extra move
+        for (int i = 0; i < 13; i++) {
+            Gameboard nextState = Deepcopy();
+            nextState.p.playernumofmovements += (6 * bngcount);
+            if (dstcount < 5) {
+                if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12) {
+                    nextState.p.playernumofmovements += 2;
+                    nextState.p.playernumofmovements += 1;
+                } else if (i == 1 || i == 4 || i == 7 || i == 10 || i == 13) {
+                    nextState.p.playernumofmovements += 3;
+                    nextState.p.playernumofmovements += 1;
+                } else if (i == 2 || i == 5 || i == 8 || i == 11 || i == 14) {
+                    nextState.p.playernumofmovements += 4;
+                    nextState.p.playernumofmovements += 1;
+                }
+                if (i == 2 || i == 5 || i == 8 || i == 11) {
+                    dstcount++;
+                }
+            }
+            nextState.makemove2(1, 0, nextState.p.playernumofmovements);
+            nextStates.add(nextState);
+            System.out.println("bng test " + i + " :" + nextState.p.playernumofmovements);
+        }
+        // bng add stone
+        for (int i = 0; i < 13; i++) {
+            Gameboard nextState = Deepcopy();
+            nextState.p.playernumofmovements += (6 * bngcount);
+            khalmoveForNextState('p', nextState, "bng", i);
+            if (dstcount < 5) {
+                if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12) {
+                    nextState.p.playernumofmovements += 2;
+                } else if (i == 1 || i == 4 || i == 7 || i == 10 || i == 13) {
+                    nextState.p.playernumofmovements += 3;
+                } else if (i == 2 || i == 5 || i == 8 || i == 11 || i == 14) {
+                    nextState.p.playernumofmovements += 4;
+                }
+                if (i == 2 || i == 5 || i == 8 || i == 11) {
+                    bngcount++;
+                }
+            }
+            nextStates.add(nextState);
+            // printarray(board);
+            System.out.println("adding stone for bng test " + i + " :" + nextState.p.playernumofmovements + " stonepos:"
+                    + nextState.p.playerstones[1].stoneboardpos + " num of stone" + nextState.p.playernumofstones);
+        }
+
+        return nextStates;
+    }
